@@ -20,6 +20,14 @@ app.get("/",(req,res)=>{
  res.render("home",{startingContent:homeStartingContent});
 })
 
+
+app.post("/",(req,res)=>{
+
+
+  console.log(req.body);
+
+})
+
 app.get("/about",(req,res)=>{
 
   res.render("about",{aboutContent:aboutContent});

@@ -35,9 +35,6 @@ app.get("/",(req,res)=>{
    Post.find({},(err,Posts)=>{
     
      res.render("home",{homeStartingContent,posts:Posts});
-          
-    
-
 
    })
  
@@ -75,36 +72,32 @@ app.post("/compose",(req,res)=>{
          })
 
 
-  post.save();
- res.redirect("/");
+  post.save((err)=>{
+
+   if(!err)
+     res.redirect("/");
+       });
 
 })
 
 app.get("/posts/:postName",(req,res)=>{
 
-   var requestTitle=  _.lowerCase( req.params.postName);
-   var storedTitle="";
-   var storedContent="";
- 
-    let flag=0;
-     posts.forEach((post)=>{
+   var requestedId= req.params.postName;
 
-       if( _.lowerCase( req.params.postName)=== _.lowerCase(post.title))
-       { 
-        
-       storedTitle= post.title; 
-        storedContent=post.content;
-          flag++;
-          return;
-        
-       }
-            })
 
-  if(flag===1)
-  res.render("post",{postTitle:storedTitle, postContent:storedContent});
-   else
-   res.redirect("/");
-   
+  console.log(requestedId);
+
+
+    Post.findOne({_id:requestedId},(err,post)=>{
+
+    if(!err)
+    {
+
+        res.render("post",{postTitle:post.title,postContent:post.content});
+
+    }
+
+    })
 })
 
 
